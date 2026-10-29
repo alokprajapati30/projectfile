@@ -60,6 +60,9 @@
       <span></span><span></span><span></span>
     </div>
 
+  </div>
+
+  <div class="nexa-transcript">
     <div class="nexa-user-text"></div>
     <div class="nexa-ai-text"></div>
   </div>

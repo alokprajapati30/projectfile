@@ -25,18 +25,19 @@
 /* popup styles */
 .nexa-popup {
   position: fixed;
-  right: 180px;
-  bottom: 98px;
+  box-sizing: border-box;
+  right: 90px;
+  bottom: 18px;
 
-  width: 360px;
-  min-width: 360px;
-  max-width: 360px;
+  width: 280px;
+  min-width: 280px;
+  max-width: 280px;
 
-  height: 580px;
-  min-height: 580px;
-  max-height: 580px;
+  height: 420px;
+  min-height: 0;
+  max-height: calc(100dvh - 24px);
 
-  border-radius: 38px;
+  border-radius: 30px;
   overflow: hidden;
   /* ................none 0r flex............ */
   z-index: 999999;
@@ -53,25 +54,32 @@
 .nexa-content {
   position: relative;
   z-index: 2;
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding: 18px 20px 14px;
+  padding: 10px 12px 8px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+  gap: 4px;
 }
 
 .nexa-top {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-height: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
+  padding-bottom: 8px;
 }
 
 .nexa-orb-wrap {
   position: relative;
   margin-top: 2px;
+  flex: 0 0 auto;
 }
 
 .nexa-orb-glow {
@@ -85,8 +93,8 @@
 
 .nexa-orb {
   position: relative;
-  width: 118px;
-  height: 118px;
+  width: 88px;
+  height: 88px;
   border-radius: 999px;
   animation: pulse 2s infinite;
 }
@@ -107,50 +115,56 @@
 }
 
 .nexa-title {
-  margin-top: 14px;
-  font-size: 28px;
+  margin-top: 8px;
+  font-size: 24px;
   line-height: 1.1;
   font-weight: 700;
   text-align: center;
+  flex: 0 0 auto;
 }
 
 .nexa-subtitle {
-  margin-top: 10px;
-  font-size: 14px;
-  line-height: 1.6;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.4;
   text-align: center;
+  flex: 0 0 auto;
 }
 
 .nexa-status {
-  margin-top: 18px;
-  font-size: 16px;
+  margin-top: 10px;
+  font-size: 14px;
   font-weight: 700;
+  flex: 0 0 auto;
 }
 
 .nexa-language-label {
-  margin-top: 12px;
+  margin-top: 7px;
   font-size: 12px;
   opacity: 0.8;
+  flex: 0 0 auto;
 }
 
 .nexa-language {
-  margin-top: 4px;
-  padding: 6px 12px;
+  margin-top: 3px;
+  padding: 4px 10px;
   border: 1px solid rgba(148, 163, 184, 0.5);
   border-radius: 999px;
   background: rgba(15, 23, 42, 0.85);
   color: white;
   cursor: pointer;
+  flex: 0 0 auto;
 }
 
 .nexa-wave {
-  margin-top: 8px;
+  margin-top: 4px;
   display: flex;
   align-items: center;
   gap: 5px;
-  height: 28px;
+  height: 20px;
   opacity: 0;
   transition: opacity 0.3s;
+  flex: 0 0 20px;
 }
 
 .nexa-wave.active {
@@ -170,14 +184,14 @@
   height: 20px;
 }
 .nexa-wave span:nth-child(3) {
-  height: 28px;
+  height: 20px;
 }
 
 .nexa-wave span:nth-child(4) {
-  height: 28px;
+  height: 20px;
 }
 .nexa-wave span:nth-child(5) {
-  height: 34px;
+  height: 24px;
 }
 .nexa-wave span:nth-child(6) {
   height: 20px;
@@ -198,9 +212,9 @@
 }
 
 .nexa-user-text {
-  margin-top: 10px;
-  min-height: 10px;
-  font-size: 14px;
+  margin-top: 4px;
+  min-height: 0;
+  font-size: 12px;
   line-height: 1.4;
   text-align: center;
   font-weight: 600;
@@ -208,17 +222,35 @@
 
 .nexa-ai-text {
   margin-top: 2px;
-  min-height: 18px;
-  font-size: 13px;
+  min-height: 0;
+  font-size: 12px;
   line-height: 1.4;
   text-align: center;
   opacity: 0.82;
 }
 
+.nexa-transcript {
+  position: relative;
+  flex: 0 1 auto;
+  width: 100%;
+  max-height: 72px;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+  text-align: center;
+  scrollbar-width: thin;
+}
+
+.nexa-transcript .nexa-user-text,
+.nexa-transcript .nexa-ai-text {
+  overflow-wrap: anywhere;
+}
+
 .nexa-bottom {
   position: relative;
-  width: 130px;
-  height: 130px;
+  width: 100%;
+  height: 54px;
+  flex: 0 0 54px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -226,10 +258,11 @@
 
 .nexa-mic {
   position: relative;
+  top: -8px;
   z-index: 2;
 
-  width: 74px;
-  height: 74px;
+  width: 48px;
+  height: 48px;
 
   border: none;
   border-radius: 999px;
@@ -266,23 +299,19 @@
 }
 
 .nexa-mic-icon {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
 }
 
 /*............ dark theme .................*/
 .theme-dark {
-  background: #050816;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  border: none;
 }
 
 .theme-dark .nexa-overlay {
-  background: radial-gradient(
-    circle at top,
-    rgba(168, 85, 247, 0.18),
-    transparent 45%
-  );
+  background: transparent;
 }
 
 .theme-dark .nexa-orb,
@@ -511,20 +540,41 @@
     0 0 160px rgba(16, 185, 129, 0.2);
 }
 
-@media(max-width:640px){
-  .nexa-popup{
-    width: 340px;
-    min-width:340px;
-    max-width:340px;
+@media (min-width: 641px) and (max-width: 900px) {
+  .nexa-popup {
+    width: min(250px, calc(100vw - 104px));
+    min-width: 0;
+    max-width: 250px;
+    height: min(380px, calc(100dvh - 24px));
+    min-height: 0;
+    max-height: calc(100dvh - 24px);
+    right: 88px;
+    bottom: 16px;
+  }
 
-    height: 560px;
-    min-height:560px;
-    max-height:560px;
+  .nexa-orb {
+    width: 76px;
+    height: 76px;
+  }
 
-    right: 50%;
-    transform: translateX(50%);
-    bottom: 82px;
-    border-radius:30px;
+  .nexa-title {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 640px) {
+  .nexa-popup {
+    width: min(230px, calc(100vw - 100px));
+    min-width: 0;
+    max-width: 230px;
+
+    height: min(350px, calc(100dvh - 24px));
+    min-height: 0;
+    max-height: calc(100dvh - 24px);
+
+    right: 84px;
+    bottom: 14px;
+    border-radius: 22px;
   }
 
   .nexa-btn {
@@ -533,20 +583,70 @@
     right: 14px;
     bottom: 14px;
   }
-.nexa-btn img{
+
+  .nexa-btn img {
     width: 60px;
     height: 60px;
+  }
 
-}
+  .nexa-content {
+    padding: 8px 10px 6px;
+  }
 
-.nexa-title{
-    font-size: 26px;
+  .nexa-top {
+    padding-bottom: 2px;
+  }
 
-}
+  .nexa-orb {
+    width: 64px;
+    height: 64px;
+  }
 
-.nexa-subtitle{
-    font-size: 13px;
-}
+  .nexa-title {
+    margin-top: 5px;
+    font-size: 19px;
+  }
 
+  .nexa-subtitle {
+    margin-top: 4px;
+    font-size: 12px;
+  }
 
+  .nexa-status {
+    margin-top: 7px;
+    font-size: 12px;
+  }
+
+  .nexa-language-label {
+    margin-top: 4px;
+  }
+
+  .nexa-language {
+    padding: 3px 8px;
+    font-size: 12px;
+  }
+
+  .nexa-wave {
+    margin-top: 3px;
+    height: 16px;
+  }
+
+  .nexa-bottom {
+    height: 46px;
+    flex-basis: 46px;
+  }
+
+  .nexa-transcript {
+    max-height: 62px;
+  }
+
+  .nexa-mic {
+    width: 42px;
+    height: 42px;
+  }
+
+  .nexa-mic-icon {
+    width: 23px;
+    height: 23px;
+  }
 }
