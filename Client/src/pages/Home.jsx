@@ -1,8 +1,16 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { FaFacebookF, FaGithub, FaInstagram, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
 import AssistantPreview from "../Components/AssistantPreview";
 import logo from '../assets/logo1.jpeg'
 
+const SOCIAL_LINKS = [
+  { label: 'Facebook', href: 'https://www.facebook.com/', Icon: FaFacebookF },
+  { label: 'Instagram', href: 'https://www.instagram.com/', Icon: FaInstagram },
+  { label: 'GitHub', href: 'https://github.com/alokprajapati30', Icon: FaGithub },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/', Icon: FaLinkedinIn },
+  { label: 'X', href: 'https://x.com/', Icon: FaXTwitter },
+]
 
 const STEPS = [
   {
@@ -37,7 +45,7 @@ const Home = ({ user }) => {
   const navigate = useNavigate()
 
   return (
-    <div className='min-h-screen bg-[#f8fafc] overflow-hidden'>
+    <div id='top' className='min-h-screen bg-[#f8fafc] overflow-hidden'>
 
       <section className=' relative overflow-hidden px-4 sm:px-6 lg:px-8
       pt-16 sm:pt-20 lg:pt-8 pb-20'>
@@ -105,7 +113,7 @@ const Home = ({ user }) => {
 
       </section>
 
-      <section className='px-4 sm:px-6 lg:px-8 py-20 bg-white'>
+      <section id='how-it-works' className='px-4 sm:px-6 lg:px-8 py-20 bg-white'>
         <div className='max-w-6xl mx-auto'>
           <div className='text-center mb-14 '>
 
@@ -136,24 +144,57 @@ const Home = ({ user }) => {
       </section>
 
 
-      <footer className=' bg-[#081028] px-6 py-10'>
-
-        <div className='max-w-6xl mx-auto flex flex-col sm:flex-row item-center justify-between
-                        gap-5 text-center sm:text-left'>
-          <div>
-            <div onClick={() => navigate("/")} className='flex items-center gap-2.5'>
-              <img src={logo} alt="logo" className='h-9 w-auto  rounded-3xl object-contain' />
-              <h1 className='font-bold text-xl text-gray-200 leading-none'>Nexa{" "} <span className=' text-transparent
-                     bg-clip-text bg-gradient-to-br from-purple-500 to-emerald-500'>Ai</span></h1>
+      <footer className='bg-[#081028] px-6 pt-14 pb-7 text-white sm:px-8'>
+        <div className='mx-auto max-w-6xl'>
+          <div className='grid gap-10 border-b border-white/10 pb-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]'>
+            <div>
+              <a href='#top' aria-label='NexaAI home' className='inline-flex items-center gap-3'>
+                <img src={logo} alt='' className='h-11 w-11 rounded-xl object-cover' />
+                <span className='text-xl font-bold tracking-tight'>
+                  Nexa<span className='bg-gradient-to-r from-purple-400 to-emerald-400 bg-clip-text text-transparent'>AI</span>
+                </span>
+              </a>
+              <p className='mt-4 max-w-sm text-sm leading-6 text-slate-400'>
+                A voice assistant that helps your website welcome visitors and answer questions, around the clock.
+              </p>
             </div>
-            <p className='text=gray-400 text-sm mt-1'>Voice Ai assistant for website</p>
 
+            <nav aria-label='Footer navigation'>
+              <h2 className='text-sm font-semibold uppercase tracking-wider text-white'>Explore</h2>
+              <ul className='mt-4 space-y-3 text-sm text-slate-400'>
+                <li><Link to='/builder' className='transition-colors hover:text-white'>Build your assistant</Link></li>
+                <li><a href='#how-it-works' className='transition-colors hover:text-white'>How it works</a></li>
+              </ul>
+            </nav>
+
+            <div>
+              <h2 className='text-sm font-semibold uppercase tracking-wider text-white'>Follow us</h2>
+              <p className='mt-4 text-sm leading-6 text-slate-400'>
+                Join the conversation and follow NexaAI on social media.
+              </p>
+              <ul className='mt-5 flex flex-wrap gap-3'>
+                {SOCIAL_LINKS.map(({ label, href, Icon }) => (
+                  <li key={label}>
+                    <a
+                      href={href}
+                      target='_blank'
+                      rel='noreferrer'
+                      aria-label={`NexaAI on ${label}`}
+                      title={label}
+                      className='flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-300 transition-all hover:-translate-y-0.5 hover:border-purple-400/50 hover:bg-purple-500/15 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400'
+                    >
+                      <Icon aria-hidden='true' size={17} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <p className=' text-gray-500 text-sm'>
-            ©{new Date().getFullYear()} NexaAi. All rights reserved.
-          </p>
-
+          <div className='flex flex-col gap-3 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between'>
+            <p>© {new Date().getFullYear()} NexaAI. All rights reserved.</p>
+            <a href='#top' className='w-fit transition-colors hover:text-white'>Back to top ↑</a>
+          </div>
         </div>
       </footer>
 
@@ -163,4 +204,3 @@ const Home = ({ user }) => {
 }
 
 export default Home
-
