@@ -1,0 +1,521 @@
+/*.......... toggel btn........ */
+.nexa-btn {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.nexa-btn img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+/* popup styles */
+.nexa-popup {
+  position: fixed;
+  right: 180px;
+  bottom: 98px;
+
+  width: 360px;
+  min-width: 360px;
+  max-width: 360px;
+
+  height: 580px;
+  min-height: 580px;
+  max-height: 580px;
+
+  border-radius: 38px;
+  overflow: hidden;
+  /* ................none 0r flex............ */
+  z-index: 999999;
+  display: none;
+
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.32);
+}
+
+.nexa-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.nexa-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 18px 20px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nexa-top {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nexa-orb-wrap {
+  position: relative;
+  margin-top: 2px;
+}
+
+.nexa-orb-glow {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.8);
+  border-radius: 999px;
+  filter: blur(75px);
+  opacity: 0.6;
+}
+
+.nexa-orb {
+  position: relative;
+  width: 118px;
+  height: 118px;
+  border-radius: 999px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    /* opacity: .6; */
+  }
+  50% {
+    transform: scale(1.04);
+    /* opacity: .3; */
+  }
+  100% {
+    transform: scale(1);
+    /* opacity: .6; */
+  }
+}
+
+.nexa-title {
+  margin-top: 14px;
+  font-size: 28px;
+  line-height: 1.1;
+  font-weight: 700;
+  text-align: center;
+}
+
+.nexa-subtitle {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.nexa-status {
+  margin-top: 18px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.nexa-wave {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.nexa-wave.active {
+  opacity: 1;
+}
+
+.nexa-wave span {
+  width: 5px;
+  border-radius: 999px;
+  animation: wave 1.2s infinite ease-in-out;
+}
+
+.nexa-wave span:nth-child(1) {
+  height: 14px;
+}
+.nexa-wave span:nth-child(2) {
+  height: 20px;
+}
+.nexa-wave span:nth-child(3) {
+  height: 28px;
+}
+
+.nexa-wave span:nth-child(4) {
+  height: 28px;
+}
+.nexa-wave span:nth-child(5) {
+  height: 34px;
+}
+.nexa-wave span:nth-child(6) {
+  height: 20px;
+}
+
+@keyframes wave {
+  0% {
+    opacity: 0.4;
+    transform: scaleY(0.8);
+  }
+  50% {
+    transform: scaleY(1.5);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scaleY(0.8);
+  }
+}
+
+.nexa-user-text {
+  margin-top: 10px;
+  min-height: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  font-weight: 600;
+}
+
+.nexa-ai-text {
+  margin-top: 2px;
+  min-height: 18px;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+  opacity: 0.82;
+}
+
+.nexa-bottom {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nexa-mic {
+  position: relative;
+  z-index: 2;
+
+  width: 74px;
+  height: 74px;
+
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+
+  color: white;
+  font-size: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.3s;
+
+  /* smooth shadow animation */
+
+  animation: micfloat 2.5s infinite ease-in-out;
+}
+
+.nexa-mic:hover {
+  transform: scale(1.06);
+}
+
+@keyframes micfloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.nexa-mic-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/*............ dark theme .................*/
+.theme-dark {
+  background: #050816;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.theme-dark .nexa-overlay {
+  background: radial-gradient(
+    circle at top,
+    rgba(168, 85, 247, 0.18),
+    transparent 45%
+  );
+}
+
+.theme-dark .nexa-orb,
+.theme-dark .nexa-orb-glow {
+  background: linear-gradient(135deg, #4cc9ff, #7c3aed, #ec4899);
+}
+
+.theme-dark .nexa-title {
+  color: white;
+}
+
+.theme-dark .nexa-subtitle {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.theme-dark .nexa-status {
+  color: #22e3a6;
+}
+
+.theme-dark .nexa-wave span {
+  background: white;
+}
+
+.theme-dark .nexa-ai-text {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* ..........dark button............ */
+
+.theme-dark .nexa-mic,
+.theme-dark .nexa-btn {
+  background: linear-gradient(135deg, #7128ee, #3073f0);
+
+  /* large premium glow */
+
+  box-shadow:
+    0 0 35px rgba(124, 58, 237, 0.55),
+    0 0 90px rgba(79, 140, 255, 0.38),
+    0 0 140px rgba(124, 58, 237, 0.22);
+}
+
+/* ..............light theme............... */
+
+.theme-light {
+  background: linear-gradient(135deg, #ffffff, #eef6ff);
+  border: 1px solid #dbeafe;
+}
+
+.theme-light .nexa-overlay {
+  background: radial-gradient(
+    circle at top,
+    rgba(59, 130, 246, 12),
+    transparent 45%
+  );
+}
+
+.theme-light .nexa-orb,
+.theme-light .nexa-orb-glow {
+  background: linear-gradient(135deg, #23aeef, #67e8fe, #d55df3);
+}
+
+.theme-light .nexa-title {
+  color: #081028;
+}
+
+.theme-light .nexa-subtitle {
+  color: #475569;
+}
+
+.theme-light .nexa-status {
+  color: #3b82f6;
+}
+
+.theme-light .nexa-wave span {
+  background: #60a5fa;
+}
+
+.theme-light .nexa-user-text {
+  color: #081028;
+}
+.theme-light .nexa-ai-text {
+  color: #475569;
+}
+
+/* ...........light theme buton .......... */
+
+.theme-light .nexa-mic,
+.theme-light.nexa-btn {
+  background: linear-gradient(135deg, #3a8aec, #059bb6);
+
+  box-shadow:
+    0 0 30px rgba(34, 114, 242, 0.38),
+    0 0 85px rgba(4, 148, 173, 0.28),
+    0 0 130px rgba(27, 104, 227, 0.16);
+}
+
+
+
+
+/* ................theme glass................. */
+
+.theme-glass {
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(45px);
+  -webkit-backdrop-filter: blur(45px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.theme-glass .nexa-overlay {
+  background: radial-gradient(
+    circle at top,
+    rgba(255, 255, 255, 0.05) /* transparent 45% */
+  );
+}
+
+.theme-glass .nexa-orb,
+.theme-glass .nexa-orb-glow {
+  background: linear-gradient(135deg, #bae6fd, #c4b5fd, #f5d0fe);
+}
+
+.theme-glass .shifra-orb-glow {
+  color: white;
+}
+
+.theme-glass .nexa-subtitle {
+  color: white;
+}
+
+.theme-glass .nexa-status {
+  color: #a5f3fc;
+}
+
+.theme-glass .nexa-wave span {
+  background: #a5f3fc;
+}
+
+.theme-glass .nexa-user-text {
+  color: white;
+}
+
+.theme-glass .nexa-ai-text {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/*............... glass theme............ */
+
+.theme-glass .nexa-mic,
+.theme-glass .nexa-btn {
+  background: linear-gradient(135deg, #38bdf8, #8b5cf6);
+
+  /* frosted neon glow */
+
+  box-shadow:
+    0 0 35px rgba(34, 211, 238, 0.34),
+    0 0 95px rgba(139, 92, 246, 0.28),
+    0 0 150px rgba(56, 189, 248, 0.18);
+}
+
+/*...........neon theme............ */
+
+.theme-neon {
+  background: #03120d;
+  border: 1px solid rgba(16, 185, 120, 0.18);
+}
+
+.theme-neon .nexa-overlay {
+  background: linear-gradient(
+    circle at top,
+    rgba(16, 185, 129, 0.18),
+    transparent 45%
+  );
+}
+
+.theme-neon .nexa-orb,
+.theme-neon .nexa-orb-glow {
+  background: linear-gradient(135deg, #34d399, #56f0bd, #b3efe8);
+}
+
+.theme-neon .nexa-title {
+  color: #ecfdf5;
+}
+
+.theme-neon .nexa-subtitle {
+ color: rgba(209, 250, 229, 0.72);
+}
+
+.theme-neon .nexa-status {
+  color: #6ee7b7;
+}
+
+.theme-neon .nexa-wave span {
+  background: #6ee7b7;
+}
+
+.theme-neon .nexa-user-text{
+  color: #ecfdf5;
+}
+
+.theme-neon .nexa-ai-text{
+  background: rgba(209, 250, 229, 0.75);
+}
+
+/* ............neon theme button */
+.theme-neon .nexa-mic,
+.theme-neon .nexa-btn{
+  background: linear-gradient(135deg, #10b981, #22c55e);
+
+  box-shadow:
+    0 0 30px rgba(16, 185, 129, 0.45),
+    0 0 100px rgba(34, 197, 94, 0.32),
+    0 0 160px rgba(16, 185, 129, 0.2);
+}
+
+@media(max-width:640px){
+  .nexa-popup{
+    width: 340px;
+    min-width:340px;
+    max-width:340px;
+
+    height: 560px;
+    min-height:560px;
+    max-height:560px;
+
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 82px;
+    border-radius:30px;
+  }
+
+  .nexa-btn {
+    width: 64px;
+    height: 64px;
+    right: 14px;
+    bottom: 14px;
+  }
+.nexa-btn img{
+    width: 60px;
+    height: 60px;
+
+}
+
+.nexa-title{
+    font-size: 26px;
+
+}
+
+.nexa-subtitle{
+    font-size: 13px;
+}
+
+
+}
