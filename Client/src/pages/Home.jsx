@@ -5,11 +5,11 @@ import AssistantPreview from "../Components/AssistantPreview";
 import logo from '../assets/logo1.jpeg'
 
 const SOCIAL_LINKS = [
-  { label: 'Facebook', href: 'https://www.facebook.com/', Icon: FaFacebookF },
-  { label: 'Instagram', href: 'https://www.instagram.com/', Icon: FaInstagram },
+  { label: 'Facebook', href: 'https://www.facebook.com/share/1Hgv8i6B7H/', Icon: FaFacebookF },
+  { label: 'Instagram', href: 'https://www.instagram.com/alok_prajapati_07?igsh=MTFwMDQ5OGtvdnhjMg==', Icon: FaInstagram },
   { label: 'GitHub', href: 'https://github.com/alokprajapati30', Icon: FaGithub },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/', Icon: FaLinkedinIn },
-  { label: 'X', href: 'https://x.com/', Icon: FaXTwitter },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alok-prajapati-21404a2a7?utm_source=share_via&utm_content=profile&utm_medium=member_android', Icon: FaLinkedinIn },
+  { label: 'X', href: 'https://x.com/AlokPrajapati03', Icon: FaXTwitter },
 ]
 
 const STEPS = [
@@ -114,7 +114,7 @@ const Home = ({ user }) => {
       </section>
 
       <section id='how-it-works' className='px-4 sm:px-6 lg:px-8 py-20 bg-white'>
-        <div className='max-w-6xl mx-auto'>
+        <div className='max-w-5xl mx-auto'>
           <div className='text-center mb-14 '>
 
             <h2 className='text-3xl sm:text-4xl font-bold text-[#081028]'>
@@ -126,10 +126,10 @@ const Home = ({ user }) => {
             </p>
 
           </div>
-          <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
             {STEPS.map((s, i) => (
               <div key={i} className='group bg-[#f8fafc] hover:bg-white border border-gray-100 
-                    rounded-[28px] p-7 transition-all hover:shadow-[0_15px_50px_rgba(0,0,0,0.86)]'>
+                    rounded-[28px] p-6 transition-all hover:shadow-[0_15px_50px_rgba(0,0,0,0.86)]'>
                 <span className='text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-500
                         to-emerald-500 '>{s.step}</span>
                 <h3 className='mt-5 text-lg font-semibold text-[#081028]'>{s.title}</h3>
