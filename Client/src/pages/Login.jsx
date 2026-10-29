@@ -57,8 +57,8 @@ const Login = ({setUser}) => {
             toast.success("Login Successfully")
             navigate("/")
         } catch (error) {
-            toast.error("Login Failed...")
-            console.log(error)
+            toast.error(error.response?.data?.message || "Google sign-in failed. Please try again.")
+            console.error("Google sign-in failed:", error)
         }
 
     }
@@ -144,6 +144,5 @@ const Login = ({setUser}) => {
 }
 
 export default Login
-
 
 

@@ -8,10 +8,11 @@ import ProtectedRoute from './Components/ProtectedRoute'
 import Navbar from './Components/Navbar'
 import Builder from './pages/Builder'
 import Billing from './pages/Billing'
+import AssistantWidget from './Components/AssistantWidget'
 
 
-export const ServerUrl = "http://localhost:3000"
-export const CLIENT_URL ="http://localhost:5173"
+export const ServerUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:3000"
+export const CLIENT_URL = import.meta.env.VITE_CLIENT_URL || window.location.origin
 
 const App = () => {
 
@@ -28,7 +29,9 @@ const App = () => {
         setUser(res.data)
         setLoading(false)
       } catch (error) {
-        console.log(error)
+        if (error.response?.status !== 401) {
+          console.error("Failed to restore session:", error)
+        }
         setLoading(false)
       }
     }
@@ -42,11 +45,12 @@ const App = () => {
 
         <Route path='/login' element={<Login setUser={setUser} />} />
         <Route path='/*' element={<ProtectedRoute user={user} loading={loading} >
+          <AssistantWidget userId={user?._id} clientUrl={CLIENT_URL} serverUrl={ServerUrl} />
           <Navbar user={user} setUser={setUser}/>
           <Routes>
             <Route path='/' element={<Home user={user} />} />
             <Route path='/builder' element={<Builder user={user} setUser={setUser} />} />
-            <Route path='/billing' element={<Billing user={user} />} />
+            <Route path='/billing' element={<Billing user={user} setUser={setUser} />} />
           <Route path='*' element={< Navigate to="/" replace/>} />
           
           
@@ -61,5 +65,3 @@ const App = () => {
 }
 
 export default App
-
-

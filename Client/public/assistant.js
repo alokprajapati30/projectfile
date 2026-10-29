@@ -1,14 +1,19 @@
 (function () {
-  // userdata 
+  const script = document.currentScript;
+  const userId = script?.dataset?.userId;
+  const serverUrl = (script?.dataset?.serverUrl || "http://localhost:3000").replace(/\/$/, "");
+  const clientUrl = script ? new URL(script.src).origin : window.location.origin;
+  const platformUrl = script?.dataset?.platformUrl || clientUrl;
+  let responseLanguage = "hi-IN";
 
-   const userId = localStorage.getItem("userId");
-  //console.log("Assistant script userId:", userId);
+  if (!userId) {
+    console.error("Nexa AI assistant requires a data-user-id on its script tag.");
+    return;
+  }
 
-  //const script = document.currentScript;
-  //const userId = script?.dataset?.userId;
-  // console.log("UserId from dataset:", userId);
-
-  //const userId = script?.dataset?.userId;
+  document.getElementById("nexa-assistant-popup")?.remove();
+  document.getElementById("nexa-assistant-button")?.remove();
+  document.getElementById("nexa-assistant-styles")?.remove();
 
   const theme = "dark"
 
@@ -17,15 +22,16 @@
   //load css
 
   const link = document.createElement("link");
+  link.id = "nexa-assistant-styles";
   link.rel = "stylesheet";
-  //link.href = "assistant.css";
-  link.href = "http://localhost:5173/assistant.css";
+  link.href = `${clientUrl}/assistant.css`;
 
   document.head.appendChild(link);
 
 
   //popcreate
   const popup = document.createElement("div");
+  popup.id = "nexa-assistant-popup";
   popup.className = `nexa-popup theme-${theme}`;
 
   popup.innerHTML = `
@@ -39,12 +45,15 @@
     </div>
 
     <h2 class="nexa-title">Hello I'm Nexa Ai</h2>
-    <p class="nexa-subtitle">
-      Your smart voice assistant.<br/>
-      Ask anything about your website.
-    </p>
+    <p class="nexa-subtitle">Aapka smart voice assistant.<br/>Hindi ya English mein baat karein.</p>
 
-    <div class="nexa-status">Top button to Speak</div>
+    <label class="nexa-language-label" for="nexa-language">Language / भाषा</label>
+    <select class="nexa-language" id="nexa-language" aria-label="Assistant language">
+      <option value="hi-IN">हिंदी</option>
+      <option value="en-IN">English</option>
+    </select>
+
+    <div class="nexa-status">बोलने के लिए माइक दबाएँ</div>
 
     <div class="nexa-wave">
       <span></span><span></span><span></span>
@@ -57,7 +66,7 @@
 
   <div class="nexa-bottom">
     <button class="nexa-mic">
-      <img src="http://localhost:5173/mic.png" alt="mic" class="nexa-mic-icon"/>
+      <img src="${clientUrl}/mic.png" alt="mic" class="nexa-mic-icon"/>
     </button>
   </div>
 </div>
@@ -71,10 +80,11 @@
 
   // floating button 
   const button = document.createElement("button")
+  button.id = "nexa-assistant-button";
   button.className = `nexa-btn theme-${theme}`;
 
   button.innerHTML = `
-    <img src="http://localhost:5173/logo1.jpeg" alt="logo"/>`;
+    <img src="${clientUrl}/logo1.jpeg" alt="logo"/>`;
 
   document.body.appendChild(button)
 
@@ -94,14 +104,14 @@
 
   const loadAssistant = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/assistant/config/${userId}`)
+      const res = await fetch(`${serverUrl}/api/assistant/config/${userId}`)
       const data = await res.json()
-      //console.log(data)
 
-
-      if (data) {
+      if (res.ok && data.user) {
         assistantConfig = data.user
         applyConfig()
+      } else {
+        throw new Error(data.message || "Failed to load assistant configuration")
       }
 
     } catch (error) {
@@ -121,9 +131,7 @@
     title.innerHTML = `Hello I'M ${assistantConfig.assistantName}`;
 
     const subtitle = popup.querySelector(".nexa-subtitle")
-    subtitle.innerHTML = `${assistantConfig.businessName}.
-        <br/>
-        Ask anything about your website.`;
+    subtitle.textContent = assistantConfig.businessName || "Hindi ya English mein apna sawal poochhein.";
 
   }
 
@@ -142,7 +150,14 @@
   const aitext = popup.querySelector(".nexa-ai-text")
 
   const mic = popup.querySelector(".nexa-mic")
+  const languageSelect = popup.querySelector(".nexa-language")
 
+  languageSelect.addEventListener("change", () => {
+    responseLanguage = languageSelect.value
+    status.innerText = responseLanguage === "hi-IN"
+      ? "बोलने के लिए माइक दबाएँ"
+      : "Tap the mic to speak"
+  })
 
 
   //text to speech
@@ -153,12 +168,10 @@
 
     //show ai responses 
     aitext.innerText = text;
-    status.innerText = "AI Speaking...";
-
+    status.innerText = responseLanguage === "hi-IN" ? "जवाब दे रहा हूँ..." : "AI Speaking...";
 
     const speech = new SpeechSynthesisUtterance(text)
-    speech.lang =
-      "hi-IN";
+    speech.lang = responseLanguage
 
     speech.rate = 1;
     speech.pitch = 1;
@@ -169,8 +182,9 @@
 
 
     speech.onend = () => {
-      status.innerText =
-        "Tap button to speak";
+      status.innerText = responseLanguage === "hi-IN"
+        ? "बोलने के लिए माइक दबाएँ"
+        : "Tap the mic to speak"
       wave.style.opacity = 0;
 
 
@@ -189,8 +203,7 @@
   if (SpeechRecognition) {
 
     const recognition = new SpeechRecognition();
-    recognition.lang =
-      "en-US";
+    recognition.lang = responseLanguage
 
     recognition.continuous =
       false
@@ -198,8 +211,9 @@
     recognition.interimResults = false;
 
     mic.onclick = () => {
+      recognition.lang = responseLanguage
       wave.style.opacity = "1";
-      status.innerText = "Listening";
+      status.innerText = responseLanguage === "hi-IN" ? "सुन रहा हूँ..." : "Listening..."
 
       userText.innerText = "";
       aitext.innerText = "";
@@ -220,14 +234,18 @@
       setTimeout(async () => {
         try {
           status.innerText = "Thinking...";
-          const res = await fetch("http://localhost:3000/api/assistant/ask", {
+          const res = await fetch(`${serverUrl}/api/assistant/ask`, {
             method: "POST",
             headers: {
               "Content-type": "application/json",
             },
             body: JSON.stringify({
               message: text,
-              userId
+              userId,
+              currentPath: window.location.pathname,
+              currentUrl: window.location.href,
+              platformUrl,
+              responseLanguage
 
             })
           })
@@ -241,11 +259,10 @@
               }, 1500)
 
             } else {
-              speak(data.aiResponse)
-
+              speak(data.aiResponse || data.response || "I couldn't understand that request.")
             }
           } else {
-            speak(" Response error please Check your plan")
+            speak(data.message || "Assistant request failed. Please check your plan and API key.")
           }
 
 
@@ -261,12 +278,14 @@
     };
 
     recognition.onerror = () => {
-      status.innerText = "Tap Button to speak";
+      status.innerText = responseLanguage === "hi-IN"
+        ? "माइक की अनुमति दें और फिर कोशिश करें"
+        : "Allow microphone access and try again"
       wave.style.opacity = "0";
     }
 
   } else {
-    status.innerText = "Speech Recognition not supported";
+    status.innerText = "Speech recognition is not supported in this browser.";
 
   }
 
@@ -275,6 +294,3 @@
 
 
 })();
-
-
-

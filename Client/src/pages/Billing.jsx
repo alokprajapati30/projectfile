@@ -42,7 +42,7 @@ function Billing({ user, setUser }) {
     Math.max(
       0,
       (user?.requestLimit || 0) -
-      (user?.totalMessages || 0)
+      (user?.totalMessage || 0)
     );
 
   const remainingDays =
@@ -66,9 +66,18 @@ function Billing({ user, setUser }) {
       const res = await axios.post(ServerUrl + "/api/billing/order", { plan: "pro" }, { withCredentials: true })
 
       const order = res.data.order
+      const keyId = res.data.keyId
+
+      if (!keyId) {
+        throw new Error("Razorpay key is not configured on the server.")
+      }
+
+      if (!window.Razorpay) {
+        throw new Error("Razorpay checkout could not be loaded. Check your internet connection and try again.")
+      }
 
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        key: keyId,
         amount:
           order.amount,
 
@@ -85,14 +94,18 @@ function Billing({ user, setUser }) {
           order.id,
 
         handler: async (response) => {
-          const verifyRes = await axios.post(ServerUrl + "/api/billing/verify", response, { withCredentials: true })
+          try {
+            const verifyRes = await axios.post(ServerUrl + "/api/billing/verify", response, { withCredentials: true })
 
-          if (verifyRes.data.success) {
-            toast.success("Payment successfully")
-
-            setUser(verifyRes.data.user)
-
-
+            if (verifyRes.data.success) {
+              toast.success("Payment successful")
+              setUser(verifyRes.data.user)
+            } else {
+              toast.error(verifyRes.data.message || "Payment verification failed")
+            }
+          } catch (error) {
+            toast.error(error.response?.data?.message || "Payment verification failed. Contact support if money was deducted.")
+            console.error("Payment verification failed:", error)
           }
         },
         theme: {
@@ -104,9 +117,13 @@ function Billing({ user, setUser }) {
 
       const razorpay = new window.Razorpay(options)
 
+      razorpay.on("payment.failed", (response) => {
+        toast.error(response.error?.description || "Payment failed. Please try again.")
+      })
+
       razorpay.open()
     } catch (error) {
-      toast.error("Payment Failed")
+      toast.error(error.response?.data?.message || error.message || "Payment could not be started. Please try again.")
 
       console.log(error);
     }

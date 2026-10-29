@@ -127,6 +127,22 @@
   font-weight: 700;
 }
 
+.nexa-language-label {
+  margin-top: 12px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.nexa-language {
+  margin-top: 4px;
+  padding: 6px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  color: white;
+  cursor: pointer;
+}
+
 .nexa-wave {
   margin-top: 8px;
   display: flex;
@@ -284,6 +300,21 @@
 
 .theme-dark .nexa-status {
   color: #22e3a6;
+}
+
+.theme-dark .nexa-language-label,
+.theme-glass .nexa-language-label,
+.theme-neon .nexa-language-label {
+  color: white;
+}
+
+.theme-light .nexa-language-label {
+  color: #475569;
+}
+
+.theme-light .nexa-language {
+  background: white;
+  color: #081028;
 }
 
 .theme-dark .nexa-wave span {

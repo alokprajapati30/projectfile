@@ -29,7 +29,7 @@ const Builder = ({ user, setUser }) => {
 
   const [businessName, setBusinessName] = useState(user?.businessName || "")
 
-  const [businessType, setBusinessType] = useState(user?.businessType || "")
+  const [businessType, setBusinessType] = useState(user?.businesstype || "")
 
   const [businessDescription, setBusinessDescription] = useState(user?.businessDescription || "")
 
@@ -101,24 +101,24 @@ const Builder = ({ user, setUser }) => {
     Math.max(
       0,
       (user?.requestLimit || 0) -
-      (user?.totalMessages || 0)
+      (user?.totalMessage || 0)
     );
 
   const remainingDay =
-    user?.proExpaireAt
+    user?.proExpiresAt
       ? Math.max(
         0,
         Math.ceil(
           (
             new Date(
-              user.proExpaireAt
+              user.proExpiresAt
             ) - new Date()
           ) /
-          (1000 * 6 * 60 * 24)
+          (1000 * 60 * 60 * 24)
         )
       ) : 0;
 
-  const embedCode = `<script src="${CLIENT_URL}/assistant.js" data-user-id="${user?._id}"></script>`;
+  const embedCode = `<script src="${CLIENT_URL}/assistant.js" data-user-id="${user?._id}" data-server-url="${ServerUrl}" data-platform-url="${CLIENT_URL}"></script>`;
 
   return (
     <div className='min-h-screen bg-[#f7f8fc] px-4 py-8'>
@@ -198,8 +198,8 @@ const Builder = ({ user, setUser }) => {
 
                   {`<body>
      Your website Content
-    <script src="${CLIENT_URL}/assistant.js data-user-id="${user?._id}"></script> 
-</body/>
+    ${embedCode}
+</body>
                     `}
 
                 </pre>
@@ -335,7 +335,3 @@ const Builder = ({ user, setUser }) => {
 }
 
 export default Builder
-
-
-
-

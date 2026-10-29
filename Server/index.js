@@ -24,9 +24,14 @@ app.use(cookieParser())
 //    credentials: true
 // }))
 
-const privateCors = cors({
-   origin:["http://localhost:5173"], credentials:true
+const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+   .split(",")
+   .map((origin) => origin.trim())
+   .filter(Boolean)
 
+const privateCors = cors({
+   origin: allowedOrigins,
+   credentials: true,
 });
 
 const publicCors = cors({
